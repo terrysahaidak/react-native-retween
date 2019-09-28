@@ -1,0 +1,15 @@
+{
+  "name": "react-native-tween",
+  "version": "0.1.0",
+  "description": "React native tween",
+  "main": "dist/index.js",
+  "react-native": "src/index.ts",
+  "author": "Terry Sahaidak",
+  "license": "MIT",
+  "private": false,
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-reanimated": "1.3.0-alpha"
+  }
+}
