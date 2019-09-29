@@ -20,7 +20,7 @@ If you are using Expo, to ensure that you get the compatible versions of the lib
 expo install react-native-reanimated
 ```
 
-If you are not using Expo, run the following:
+If you are not using Expo (this might not work with latest sdk yet, since it has outdated version of reanimated), run the following:
 
 ```sh
 yarn add react-native-reanimated
