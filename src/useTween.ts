@@ -31,7 +31,7 @@ function generateTweenAnimation<T extends AnimationInputValues>(
   );
   const keys = Object.keys(props.from);
   const masterValue = new A.Value(0);
-  const inputRange: [number, number] = [0, 100];
+  const inputRange: [number, number] = [0, 1];
 
   const values: ReanimatedValues<T> = keys.reduce(
     (acc, current) => {
@@ -60,7 +60,7 @@ function generateTweenAnimation<T extends AnimationInputValues>(
           clock: forwardAnimationClock,
           oppositeClock: backwardAnimationClock,
           value: masterValue,
-          dest: 100,
+          dest: 1,
           // resetValue: from,
           onFinish: A.set(animationState, AnimationState.END_POINT),
         },
