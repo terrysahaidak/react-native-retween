@@ -16,13 +16,11 @@ export enum AnimationState {
 }
 
 export interface IAnimationConfig {
-  animationState: A.Value<AnimationState>;
   clock: A.Clock;
   oppositeClock: A.Clock;
   value: A.Value<number>;
   dest: A.Adaptable<number>;
-  resetValue?: A.Adaptable<number>;
-  onFinish?: A.Adaptable<number>;
+  onFinish?: A.Node<number>;
 }
 
 export interface AnimationInputValues {
@@ -70,14 +68,15 @@ export function isTiming<T>(
   );
 }
 
-type AnimationRunner<T> = (
+type AnimationRunner = (
   config: IAnimationConfig,
-  props: TweenAnimationProps<T>,
+  // FIXME: Find a better type
+  props: any,
 ) => A.Node<number>;
 
 export function getAnimationRunner<T>(
   props: TweenAnimationProps<T>,
-): AnimationRunner<T> {
+): AnimationRunner {
   if (isTiming(props)) {
     return runTiming;
   } else if (isSpring(props)) {

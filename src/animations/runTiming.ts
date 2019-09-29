@@ -1,7 +1,6 @@
 import {
   IAnimationConfig,
   TimingTweenAnimation,
-  AnimationState,
   updateStateProc,
 } from './../common';
 import A, { Easing } from 'react-native-reanimated';
@@ -65,15 +64,7 @@ function timing(
 }
 
 export const runTiming = (
-  {
-    animationState,
-    clock,
-    oppositeClock,
-    value,
-    dest,
-    resetValue = dest,
-    onFinish,
-  }: IAnimationConfig,
+  { clock, oppositeClock, value, dest, onFinish }: IAnimationConfig,
   props: TimingTweenAnimation<any>,
 ) => {
   const state = {
@@ -109,19 +100,11 @@ export const runTiming = (
       A.startClock(clock),
     ]),
     timing(clock, state, config),
-    // A.cond(A.eq(animationState, AnimationState.START_POINT), [
-    //   updateStateProc(
-    //     resetValue,
-    //     resetValue,
-    //     state.finished,
-    //     state.position,
-    //     state.time,
-    //     state.frameTime,
-    //     config.toValue,
-    //   ),
-    //   A.stopClock(clock),
-    // ]),
-    A.cond(state.finished, A.block([A.stopClock(clock), onFinish])),
+    A.cond(
+      state.finished,
+      // @ts-ignore
+      A.block([A.stopClock(clock), onFinish]),
+    ),
     A.set(value, state.position),
   ]);
 };

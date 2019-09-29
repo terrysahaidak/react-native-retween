@@ -12,10 +12,8 @@ type ReanimatedValues<T> = { [K in keyof T]: A.Value<number> };
 
 interface AnimationBag<T extends AnimationInputValues> {
   values: ReanimatedValues<T>;
-  // stop(): void;
   play(backward?: boolean): void;
   stop(): void;
-  // pause(): void;
 }
 
 interface Animation<T extends AnimationInputValues>
@@ -56,12 +54,10 @@ function generateTweenAnimation<T extends AnimationInputValues>(
       // run all the forward animations
       runAnimation(
         {
-          animationState,
           clock: forwardAnimationClock,
           oppositeClock: backwardAnimationClock,
           value: masterValue,
           dest: 1,
-          // resetValue: from,
           onFinish: A.set(animationState, AnimationState.END_POINT),
         },
         props,
@@ -73,7 +69,6 @@ function generateTweenAnimation<T extends AnimationInputValues>(
       // run all the backward animations
       runAnimation(
         {
-          animationState,
           clock: backwardAnimationClock,
           oppositeClock: forwardAnimationClock,
           value: masterValue,
@@ -106,7 +101,7 @@ function generateTweenAnimation<T extends AnimationInputValues>(
 }
 
 function useReset() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState<number>(0);
 
   const reset = useCallback<any>(() => {
     setCount((val) => val + 1);

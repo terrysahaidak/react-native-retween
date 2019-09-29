@@ -2,9 +2,8 @@ import {
   IAnimationConfig,
   SpringTweenAnimation,
   updateStateProc,
-  AnimationState,
 } from './../common';
-import A, { Easing } from 'react-native-reanimated';
+import A from 'react-native-reanimated';
 
 export type SpringConfig = {
   damping: number;
@@ -41,6 +40,7 @@ const springProc = A.proc(
         velocity,
         position,
         time,
+        // @ts-ignore
         prevPosition,
       },
       {
@@ -120,15 +120,7 @@ function spring(
 }
 
 export const runSpring = (
-  {
-    animationState,
-    clock,
-    oppositeClock,
-    value,
-    dest,
-    resetValue = dest,
-    onFinish,
-  }: IAnimationConfig,
+  { clock, oppositeClock, value, dest, onFinish }: IAnimationConfig,
   props: SpringTweenAnimation<any>,
 ) => {
   const state = {
@@ -163,19 +155,11 @@ export const runSpring = (
       A.startClock(clock),
     ]),
     spring(clock, state, config),
-    // A.cond(A.eq(animationState, AnimationState.START_POINT), [
-    //   updateStateProc(
-    //     resetValue,
-    //     resetValue,
-    //     state.finished,
-    //     state.position,
-    //     state.time,
-    //     state.velocity,
-    //     config.toValue,
-    //   ),
-    //   A.stopClock(clock),
-    // ]),
-    A.cond(state.finished, A.block([A.stopClock(clock), onFinish])),
+    A.cond(
+      state.finished,
+      // @ts-ignore
+      A.block([A.stopClock(clock), onFinish]),
+    ),
     A.set(value, state.position),
   ]);
 };
