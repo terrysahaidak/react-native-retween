@@ -4,6 +4,7 @@
   "description": "React native tween built on top on react-native-reanimated",
   "main": "lib/commonjs/index.js",
   "react-native": "src/index.ts",
+  "typings": "lib/typescript/index.d.ts",
   "author": "Terry Sahaidak",
   "license": "MIT",
   "private": false,

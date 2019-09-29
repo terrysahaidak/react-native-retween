@@ -7,7 +7,7 @@ import {
   Button,
 } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { useTween, TweenAnimationProps } from 'react-native-retween';
+import { useTween } from '../';
 
 const { width: windowWidth } = Dimensions.get('window');
 
@@ -36,11 +36,9 @@ const s = StyleSheet.create({
 });
 
 function TweenExample() {
-  const [animation, setAnimation] = useState<
-    TweenAnimationProps<any>
-  >(() => ({
+  const { play, values, stop } = useTween(() => ({
     timing: {
-      duration: 2000,
+      duration: 400,
     },
     from: {
       width: 50,
@@ -56,38 +54,23 @@ function TweenExample() {
     },
   }));
 
-  const { play, values, stop } = useTween(() => animation, [
-    animation,
-  ]);
-
   const [backward, setBackward] = React.useState(false);
 
-  function onPress() {
+  function onPlay() {
     play(backward);
     setBackward((val) => !val);
   }
 
-  useEffect(() => {
-    play();
-  }, []);
-
-  function changeAnimation() {
-    setAnimation((val) => ({
-      ...val,
-      timing: undefined,
-      spring: {
-        mass: 1,
-        stiffness: 200,
-      },
-    }));
+  function onStop() {
+    stop();
+    setBackward(false);
   }
 
   return (
     <View style={s.animationContainer}>
       <View style={s.row}>
-        <Button onPress={onPress} title="Toggle animation" />
-        <Button onPress={changeAnimation} title="Change Animation" />
-        <Button onPress={stop} title="Stop" />
+        <Button onPress={onPlay} title="Toggle animation" />
+        <Button onPress={onStop} title="Stop" />
       </View>
 
       <Animated.View style={[s.animatedView, values]} />
@@ -95,7 +78,7 @@ function TweenExample() {
   );
 }
 
-const ANIMATION_COUNT = 50;
+const ANIMATION_COUNT = 10;
 
 export default function App() {
   const [show, setShow] = React.useState(false);
@@ -118,7 +101,7 @@ export default function App() {
 
   return (
     <FlatList
-      // style={{ marginTop:  }}
+      style={{ marginTop: 100 }}
       data={range}
       initialNumToRender={ANIMATION_COUNT}
       // maxToRenderPerBatch={ANIMATION_COUNT}

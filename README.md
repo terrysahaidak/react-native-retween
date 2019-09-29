@@ -1,4 +1,8 @@
-# React Native Retween
+# React Native ReTween
+
+> Blazing fast and easy tween animation.
+
+<img src="demo.gif" />
 
 ## Installation
 
