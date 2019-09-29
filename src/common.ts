@@ -107,3 +107,34 @@ export const updateStateProc = A.proc((
     A.set(toValue, dest),
   ]),
 );
+
+const interpolateProc = A.proc(
+  (
+    value: A.Value<number>,
+    input1: A.Adaptable<number>,
+    input2: A.Adaptable<number>,
+    output1: A.Adaptable<number>,
+    output2: A.Adaptable<number>,
+  ) =>
+    A.interpolate(value, {
+      inputRange: [input1, input2],
+      outputRange: [output1, output2],
+      extrapolate: A.Extrapolate.EXTEND,
+    }),
+);
+
+export function interpolate(
+  value: A.Value<number>,
+  config: {
+    inputRange: [number, number];
+    outputRange: [number, number];
+  },
+) {
+  return interpolateProc(
+    value,
+    config.inputRange[0],
+    config.inputRange[1],
+    config.outputRange[0],
+    config.outputRange[1],
+  );
+}

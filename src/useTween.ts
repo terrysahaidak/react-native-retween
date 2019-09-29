@@ -5,6 +5,7 @@ import {
   AnimationInputValues,
   TweenAnimationProps,
   getAnimationRunner,
+  interpolate,
 } from './common';
 
 type ReanimatedValues<T> = { [K in keyof T]: A.Value<number> };
@@ -29,10 +30,15 @@ function generateTweenAnimation<T extends AnimationInputValues>(
     AnimationState.START_POINT,
   );
   const keys = Object.keys(props.from);
+  const masterValue = new A.Value(0);
+  const inputRange: [number, number] = [0, 100];
 
   const values: ReanimatedValues<T> = keys.reduce(
     (acc, current) => {
-      acc[current] = new A.Value(props.from[current]);
+      acc[current] = interpolate(masterValue, {
+        inputRange,
+        outputRange: [props.from[current], props.to[current]],
+      });
 
       return acc;
     },
@@ -41,68 +47,41 @@ function generateTweenAnimation<T extends AnimationInputValues>(
 
   const runAnimation = getAnimationRunner<T>(props);
 
-  const { forwardAnimations, backwardAnimations } = keys.reduce(
-    (acc, key, index) => {
-      const from = props.from[key];
-      const to = props.to[key];
-      const currentValue = values[key];
-
-      const forwardAnimationClock = new A.Clock();
-      const backwardAnimationClock = new A.Clock();
-      const first = index === 0;
-
-      const forwardAnimation = runAnimation(
-        {
-          animationState,
-          clock: forwardAnimationClock,
-          oppositeClock: backwardAnimationClock,
-          value: currentValue,
-          dest: to,
-          resetValue: from,
-          onFinish: first
-            ? 0
-            : A.set(animationState, AnimationState.END_POINT),
-        },
-        props,
-      );
-
-      const backwardAnimation = runAnimation(
-        {
-          animationState,
-          clock: backwardAnimationClock,
-          oppositeClock: forwardAnimationClock,
-          value: currentValue,
-          dest: from,
-          onFinish: first
-            ? 0
-            : A.set(animationState, AnimationState.START_POINT),
-        },
-        props,
-      );
-
-      acc.forwardAnimations.push(forwardAnimation);
-
-      acc.backwardAnimations.push(backwardAnimation);
-
-      return acc;
-    },
-    {
-      forwardAnimations: [],
-      backwardAnimations: [],
-    },
-  );
+  const forwardAnimationClock = new A.Clock();
+  const backwardAnimationClock = new A.Clock();
 
   const animation = A.block([
     A.cond(
       A.eq(animationState, AnimationState.PLAY_FORWARD),
       // run all the forward animations
-      A.block(forwardAnimations),
+      runAnimation(
+        {
+          animationState,
+          clock: forwardAnimationClock,
+          oppositeClock: backwardAnimationClock,
+          value: masterValue,
+          dest: 100,
+          // resetValue: from,
+          onFinish: A.set(animationState, AnimationState.END_POINT),
+        },
+        props,
+      ),
       // 0,
     ),
     A.cond(
       A.eq(animationState, AnimationState.PLAY_BACKWARD),
       // run all the backward animations
-      A.block(backwardAnimations),
+      runAnimation(
+        {
+          animationState,
+          clock: backwardAnimationClock,
+          oppositeClock: forwardAnimationClock,
+          value: masterValue,
+          dest: 0,
+          onFinish: A.set(animationState, AnimationState.START_POINT),
+        },
+        props,
+      ),
     ),
   ]);
 
