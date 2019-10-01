@@ -7,6 +7,7 @@ import {
   SpringAnimationConfig,
   runSpring,
 } from './animations/runSpring';
+import { RGBProp } from './utils/fromRgb';
 
 export enum AnimationState {
   START_POINT = 0,
@@ -23,8 +24,10 @@ export interface IAnimationConfig {
   onFinish?: A.Node<number>;
 }
 
+export type AnimatedInputValue = number | RGBProp;
+
 export interface AnimationInputValues {
-  [key: string]: number;
+  [key: string]: AnimatedInputValue;
 }
 
 export interface AnimationValues {
@@ -137,3 +140,59 @@ export function interpolate(
     config.outputRange[1],
   );
 }
+
+export const bInterpolateColorProc = A.proc(
+  (
+    animationValue: A.Value<number>,
+    input1: A.Adaptable<number>,
+    input2: A.Adaptable<number>,
+    r1: A.Adaptable<number>,
+    r2: A.Adaptable<number>,
+    g1: A.Adaptable<number>,
+    g2: A.Adaptable<number>,
+    b1: A.Adaptable<number>,
+    b2: A.Adaptable<number>,
+  ) =>
+    A.color(
+      A.round(
+        A.interpolate(animationValue, {
+          inputRange: [input1, input2],
+          outputRange: [r1, r2],
+          extrapolate: A.Extrapolate.EXTEND,
+        }),
+      ),
+      A.round(
+        A.interpolate(animationValue, {
+          inputRange: [input1, input2],
+          outputRange: [g1, g2],
+          extrapolate: A.Extrapolate.EXTEND,
+        }),
+      ),
+      A.round(
+        A.interpolate(animationValue, {
+          inputRange: [input1, input2],
+          outputRange: [b1, b2],
+          extrapolate: A.Extrapolate.EXTEND,
+        }),
+      ),
+    ),
+);
+
+export const bInterpolateColor = (
+  value: A.Adaptable<number>,
+  config: {
+    inputRange: [number, number];
+    outputRange: [RGBProp, RGBProp];
+  },
+) =>
+  bInterpolateColorProc(
+    value,
+    config.inputRange[0],
+    config.inputRange[1],
+    config.outputRange[0].r,
+    config.outputRange[1].r,
+    config.outputRange[0].g,
+    config.outputRange[1].g,
+    config.outputRange[0].b,
+    config.outputRange[1].b,
+  );

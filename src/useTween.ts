@@ -6,11 +6,14 @@ import {
   TweenAnimationProps,
   getAnimationRunner,
   interpolate,
+  bInterpolateColor,
 } from './common';
+import { isRGB } from './utils/fromRgb';
 
-type ReanimatedValues<T> = { [K in keyof T]: A.Value<number> };
+export type ReanimatedValues<T> = { [K in keyof T]: A.Value<number> };
 
-interface AnimationBag<T extends AnimationInputValues> {
+export interface AnimationBag<T extends AnimationInputValues> {
+  transition: A.Value<number>;
   values: ReanimatedValues<T>;
   play(backward?: boolean): void;
   stop(): void;
@@ -33,10 +36,24 @@ function generateTweenAnimation<T extends AnimationInputValues>(
 
   const values: ReanimatedValues<T> = keys.reduce(
     (acc, current) => {
-      acc[current] = interpolate(masterValue, {
-        inputRange,
-        outputRange: [props.from[current], props.to[current]],
-      });
+      const from = props.from[current];
+      const to = props.to[current];
+
+      if (isRGB(from) && isRGB(to)) {
+        acc[current] = bInterpolateColor(masterValue, {
+          inputRange,
+          outputRange: [from, to],
+        });
+      } else if (typeof from === 'number' && typeof to === 'number') {
+        acc[current] = interpolate(masterValue, {
+          inputRange,
+          outputRange: [from, to],
+        });
+      } else {
+        throw new Error(
+          `Unsupported value 'from: ${from}, to: ${to}' of prop ${current}`,
+        );
+      }
 
       return acc;
     },
@@ -97,6 +114,7 @@ function generateTweenAnimation<T extends AnimationInputValues>(
     play,
     stop,
     values,
+    transition: masterValue,
   };
 }
 
@@ -119,14 +137,13 @@ export function useTween<TValues extends AnimationInputValues>(
 
   const depsToUse = [...deps, count];
 
-  const { play, values, animation } = useMemo<Animation<TValues>>(
-    () => {
-      const animation = config();
+  const { play, values, animation, transition } = useMemo<
+    Animation<TValues>
+  >(() => {
+    const animation = config();
 
-      return generateTweenAnimation<TValues>(animation);
-    },
-    depsToUse,
-  );
+    return generateTweenAnimation<TValues>(animation);
+  }, depsToUse);
 
   A.useCode(animation, depsToUse);
 
@@ -134,5 +151,6 @@ export function useTween<TValues extends AnimationInputValues>(
     play,
     stop,
     values,
+    transition,
   };
 }
