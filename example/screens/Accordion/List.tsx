@@ -8,7 +8,7 @@ import {
 import Animated from 'react-native-reanimated';
 import { Chevron } from './Chevron';
 import Item, { ListItem } from './ListItem';
-import { useTweenToggle, fromRgb } from '../../../src';
+import { useTweenToggle } from '../../../src';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,14 +53,14 @@ export function List({ list }: ListProps) {
         height: 0,
         bottomRadius: 8,
         rotateZ: 0,
-        chevronBg: fromRgb({ r: 82, g: 82, b: 81 }),
+        chevronBg: { r: 82, g: 82, b: 81 },
       },
       to: {
         opacity: 1,
         height: 54 * list.items.length,
         bottomRadius: 0,
         rotateZ: Math.PI,
-        chevronBg: fromRgb({ r: 228, g: 86, b: 69 }),
+        chevronBg: { r: 228, g: 86, b: 69 },
       },
     }),
     open,

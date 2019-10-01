@@ -7,7 +7,12 @@ import {
   SpringAnimationConfig,
   runSpring,
 } from './animations/runSpring';
-import { RGBProp } from './utils/fromRgb';
+
+export interface RGBColor {
+  r: number;
+  g: number;
+  b: number;
+}
 
 export enum AnimationState {
   START_POINT = 0,
@@ -24,7 +29,7 @@ export interface IAnimationConfig {
   onFinish?: A.Node<number>;
 }
 
-export type AnimatedInputValue = number | RGBProp;
+export type AnimatedInputValue = number | RGBColor;
 
 export interface AnimationInputValues {
   [key: string]: AnimatedInputValue;

@@ -8,7 +8,7 @@ import {
   interpolate,
   bInterpolateColor,
 } from './common';
-import { isRGB } from './utils/fromRgb';
+import { isRGB, isNumber } from './utils/checkers';
 
 export type ReanimatedValues<T> = { [K in keyof T]: A.Value<number> };
 
@@ -44,7 +44,7 @@ function generateTweenAnimation<T extends AnimationInputValues>(
           inputRange,
           outputRange: [from, to],
         });
-      } else if (typeof from === 'number' && typeof to === 'number') {
+      } else if (isNumber(from) && isNumber(to)) {
         acc[current] = interpolate(masterValue, {
           inputRange,
           outputRange: [from, to],
