@@ -187,7 +187,7 @@ export const bInterpolateColor = (
   value: A.Adaptable<number>,
   config: {
     inputRange: [number, number];
-    outputRange: [RGBProp, RGBProp];
+    outputRange: [RGBColor, RGBColor];
   },
 ) =>
   bInterpolateColorProc(
