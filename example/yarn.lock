@@ -822,6 +822,10 @@
     eslint-plugin-react-native "3.6.0"
     prettier "1.16.4"
 
+"@react-native-community/masked-view@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.1.tgz#dbcfc5ec08efbb02d4142dd9426c8d7a396829d7"
+
 "@react-navigation/core@^3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.5.1.tgz#7a2339fca3496979305fb3a8ab88c2ca8d8c214d"
@@ -4564,7 +4568,7 @@ react-native-redash@^8.1.0:
     parse-svg-path "^0.1.2"
     use-memo-one "^1.1.1"
 
-react-native-safe-area-view@^0.14.1:
+react-native-safe-area-view@^0.14.1, react-native-safe-area-view@^0.14.6:
   version "0.14.8"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.14.8.tgz#ef33c46ff8164ae77acad48c3039ec9c34873e5b"
   dependencies:
@@ -4617,11 +4621,11 @@ react-native@0.60.5:
     stacktrace-parser "^0.1.3"
     whatwg-fetch "^3.0.0"
 
-react-navigation-stack@^1.9.3:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/react-navigation-stack/-/react-navigation-stack-1.9.3.tgz#956a41796878d82c4db506075afea5e3cef64120"
+react-navigation-stack@^2.0.0-alpha.19:
+  version "2.0.0-alpha.19"
+  resolved "https://registry.yarnpkg.com/react-navigation-stack/-/react-navigation-stack-2.0.0-alpha.19.tgz#2152433ef8ef5623b76c35cf1837da978fd223be"
   dependencies:
-    prop-types "^15.7.2"
+    react-native-safe-area-view "^0.14.6"
 
 react-navigation@^4.0.10:
   version "4.0.10"

@@ -39,11 +39,13 @@ function generateTweenAnimation<T extends AnimationInputValues>(
       const from = props.from[current];
       const to = props.to[current];
 
+      // if we are interpolating colors
       if (isRGB(from) && isRGB(to)) {
         acc[current] = bInterpolateColor(masterValue, {
           inputRange,
           outputRange: [from, to],
         });
+        // currently only numbers are allowed
       } else if (isNumber(from) && isNumber(to)) {
         acc[current] = interpolate(masterValue, {
           inputRange,
@@ -60,6 +62,7 @@ function generateTweenAnimation<T extends AnimationInputValues>(
     {} as any,
   );
 
+  // returns timing or spring animation runner based on config
   const runAnimation = getAnimationRunner<T>(props);
 
   const forwardAnimationClock = new A.Clock();

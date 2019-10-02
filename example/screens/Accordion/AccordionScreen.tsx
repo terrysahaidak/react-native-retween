@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, ScrollView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { List, List as ListModel } from './List';
+import { FlatList } from 'react-native-gesture-handler';
 
 const s = StyleSheet.create({
   container: {
@@ -25,20 +26,19 @@ const list: ListModel = {
     { name: 'Johnny Marr', points: '$2.56' },
   ],
 };
+
+const data: ListModel[] = Array(5).fill(list);
+
 function AccordionScreen() {
   return (
-    <ScrollView
+    <FlatList
       style={s.container}
       contentContainerStyle={s.innerContainer}
-    >
-      <Text style={s.title}>Markets</Text>
-      <List list={list} />
-      <List list={list} />
-      <List list={list} />
-      <List list={list} />
-      <List list={list} />
-      <List list={list} />
-    </ScrollView>
+      ListHeaderComponent={() => <Text style={s.title}>Markets</Text>}
+      data={data}
+      keyExtractor={(_, index) => String(index)}
+      renderItem={({ item }) => <List list={item} />}
+    />
   );
 }
 

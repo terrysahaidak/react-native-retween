@@ -64,11 +64,11 @@ type AnimatedSpringConfig = {
   overshootClamping: A.Adaptable<number>;
 };
 
+const defaultConfig = A.SpringUtils.makeDefaultConfig();
+
 function transformSpringConfigToAnimatedValues(
   config: Partial<SpringConfig>,
 ): AnimatedSpringConfig {
-  const defaultConfig = A.SpringUtils.makeDefaultConfig();
-
   return {
     damping: config.damping
       ? new A.Value(config.damping)
