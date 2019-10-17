@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { routes } from '../../App';
@@ -25,7 +25,9 @@ const s = StyleSheet.create({
   },
 });
 
-interface HomeProps extends NavigationStackScreenProps {}
+interface HomeProps {
+  navigation: NativeStackNavigationProp<{}>;
+}
 
 export function HomeScreen({ navigation }: HomeProps) {
   const list = Object.keys(routes);
