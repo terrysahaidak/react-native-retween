@@ -4,7 +4,7 @@ import {
   updateStateProc,
 } from './../common';
 import A from 'react-native-reanimated';
-import { maybeProc } from 'src/utils/maybeProc';
+import { maybeProc } from './../utils/maybeProc';
 
 export type SpringConfig = {
   damping: number;
