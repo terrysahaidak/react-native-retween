@@ -7,6 +7,7 @@ import {
   SpringAnimationConfig,
   runSpring,
 } from './animations/runSpring';
+import { maybeProc } from './utils/maybeProc';
 
 export interface RGBColor {
   r: number;
@@ -94,7 +95,7 @@ export function getAnimationRunner<T>(
   }
 }
 
-export const updateStateProc = A.proc((
+export const updateStateProc = maybeProc((
   // custom
   value: A.Value<number>,
   dest: A.Adaptable<number>,
@@ -115,7 +116,7 @@ export const updateStateProc = A.proc((
   ]),
 );
 
-const interpolateProc = A.proc(
+const interpolateProc = maybeProc(
   (
     value: A.Value<number>,
     input1: A.Adaptable<number>,
@@ -146,9 +147,9 @@ export function interpolate(
   );
 }
 
-export const bInterpolateColorProc = A.proc(
+export const bInterpolateColorProc = maybeProc(
   (
-    animationValue: A.Value<number>,
+    animationValue: A.Adaptable<number>,
     input1: A.Adaptable<number>,
     input2: A.Adaptable<number>,
     r1: A.Adaptable<number>,
