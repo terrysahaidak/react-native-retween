@@ -1,6 +1,6 @@
 {
   "name": "react-native-retween",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "React native tween built on top on react-native-reanimated",
   "main": "lib/commonjs/index.js",
   "react-native": "src/index.ts",
