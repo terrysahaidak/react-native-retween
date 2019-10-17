@@ -4,13 +4,14 @@ import {
   updateStateProc,
 } from './../common';
 import A, { Easing } from 'react-native-reanimated';
+import { maybeProc } from '../utils/maybeProc';
 
 export interface TimingAnimationConfig {
   duration: number;
   easing?: A.EasingFunction;
 }
 
-const timingProc = A.proc((
+const timingProc = maybeProc((
   clock: A.Clock,
   // state
   finished: A.Value<number>,

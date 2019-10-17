@@ -4,6 +4,7 @@ import {
   updateStateProc,
 } from './../common';
 import A from 'react-native-reanimated';
+import { maybeProc } from '../utils/maybeProc';
 
 export type SpringConfig = {
   damping: number;
@@ -17,7 +18,7 @@ export type SpringConfig = {
 export interface SpringAnimationConfig
   extends Partial<SpringConfig> {}
 
-const springProc = A.proc(
+const springProc = maybeProc(
   (
     finished: A.Value<number>,
     velocity: A.Value<number>,
@@ -132,7 +133,7 @@ export const runSpring = (
 
   const config = {
     ...transformSpringConfigToAnimatedValues(props.spring),
-    toValue: dest,
+    toValue: new A.Value(0),
   };
 
   return A.block([
