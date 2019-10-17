@@ -14,13 +14,13 @@ yarn add react-native-retween
 
 Now we need to install [`react-native-reanimated`](https://github.com/kmagiera/react-native-reanimated).
 
-If you are using Expo, to ensure that you get the compatible versions of the libraries, run:
+If you are using Expo (this might not work with latest Expo SDK 35 yet, since it has outdated version of reanimated), to ensure that you get the compatible versions of the libraries, run:
 
 ```sh
 expo install react-native-reanimated
 ```
 
-If you are not using Expo (this might not work with latest sdk yet, since it has outdated version of reanimated), run the following:
+If you are not using Expo, run the following:
 
 ```sh
 yarn add react-native-reanimated
