@@ -14,11 +14,6 @@ export const routes = {
   Basic: BasicScreen,
 };
 
-export const allRoutes = {
-  Home: HomeScreen,
-  ...routes,
-};
-
 const Stack = createNativeStackNavigator();
 // const Stack = createStackNavigator();
 
@@ -26,7 +21,15 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {Object.entries(allRoutes).map(([key, screen]) => (
+        <Stack.Screen
+          component={HomeScreen}
+          name="Home"
+          options={{
+            headerLargeTitle: true,
+          }}
+        />
+
+        {Object.entries(routes).map(([key, screen]) => (
           <Stack.Screen component={screen} name={key} key={key} />
         ))}
       </Stack.Navigator>
