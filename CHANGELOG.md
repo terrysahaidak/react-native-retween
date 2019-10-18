@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fix maybeProc to actually return proc if it's available
+
 ## [0.3.0] - 2019-10-17
 
 - Use proc only if it's supported by reanimated (fix expo compatibility)
